@@ -3,6 +3,7 @@ import requests
 from sec_api import ExtractorApi, QueryApi, RenderApi
 from functools import wraps
 from typing import Annotated
+
 from ..utils import SavePathType, decorate_all_methods
 from ..data_source import FMPUtils
 

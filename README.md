@@ -50,19 +50,61 @@ FinRobot is a sophisticated multi-agent framework for financial analysis, market
 - OpenAI API key (or compatible LLM provider)
 - Optional: API keys for data sources (FinnHub, SEC, FMP)
 
-### Setup
+### Quick Start with uv (Recommended)
+
+[uv](https://github.com/astral-sh/uv) is a fast Python package installer and resolver. It's significantly faster than pip and conda.
 
 ```bash
+# Install uv (if not already installed)
+curl -LsSf https://astral.sh/uv/install.sh | sh
+
+# Clone the repository
+git clone https://github.com/IIIIQIIII/FinRobot-AF.git
+cd FinRobot-AF
+
+# Create virtual environment and install dependencies
+uv venv
+source .venv/bin/activate  # On Windows: .venv\Scripts\activate
+
+# Install the package with all dependencies
+uv pip install --pre -e .
+
+# Optional: Install development dependencies
+uv pip install --pre -e ".[dev]"
+
+# Optional: Install Jupyter support
+uv pip install --pre -e ".[jupyter]"
+```
+
+### Alternative: Installation with conda
+
+If you prefer conda for environment management:
+
+**Quick install (using script):**
+```bash
+# Linux/macOS
+./scripts/install_conda.sh
+
+# Windows
+scripts\install_conda.bat
+```
+
+**Manual install:**
+```bash
 # Create conda environment
-conda create -n finrobot python=3.10
+conda create -n finrobot python=3.10 -y
 conda activate finrobot
 
-# Install dependencies
-pip install -r requirements.txt
+# Install dependencies (note: --pre flag required for agent-framework)
+pip install --pre -r requirements.txt
 
 # Install FinRobot package
 pip install -e .
 ```
+
+**Important**: The `--pre` flag is required for installing `agent-framework-core` (pre-release).
+
+See [docs/installation.md](docs/installation.md) for detailed installation instructions and troubleshooting.
 
 ### Configuration
 

@@ -24,6 +24,11 @@ wheels/
 venv/
 ENV/
 env/
+.venv/
+
+# uv
+.uv/
+uv.lock
 
 # IDE
 .vscode/
@@ -50,6 +55,10 @@ data/*
 !data/README.md
 results/*
 !results/README.md
+!results/reports/README.md
+
+# Development reports (internal documentation, not for GitHub)
+docs/development-reports/
 
 # Reports generated in root directory
 # (Should be moved to docs/development-reports/)

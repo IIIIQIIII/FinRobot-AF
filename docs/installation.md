@@ -16,39 +16,104 @@ Complete installation instructions for FinRobot-AF.
 
 ## Installation Methods
 
-### Method 1: Development Installation (Recommended)
+### Method 1: uv Installation (Recommended) ⚡
 
-For development or local exploration:
+[uv](https://github.com/astral-sh/uv) is an extremely fast Python package installer (10-100x faster than pip).
 
 ```bash
-# 1. Create conda environment
-conda create -n finrobot python=3.10
-conda activate finrobot
+# 1. Install uv (if not already installed)
+curl -LsSf https://astral.sh/uv/install.sh | sh
+# On Windows: powershell -c "irm https://astral.sh/uv/install.ps1 | iex"
 
 # 2. Clone repository
 git clone https://github.com/IIIIQIIII/FinRobot-AF.git
 cd FinRobot-AF
 
-# 3. Install dependencies
-pip install -r requirements.txt
+# 3. Create virtual environment and install (takes ~15 seconds)
+uv venv
+source .venv/bin/activate  # On Windows: .venv\Scripts\activate
+uv pip install --pre -e .
 
-# 4. Install in editable mode
+# Optional: Install with development tools
+uv pip install --pre -e ".[dev]"
+```
+
+**Why uv?**
+- ⚡ **15 seconds** vs 5-10 minutes with conda/pip
+- 🔒 Better dependency resolution
+- 🎯 Modern pyproject.toml support
+- 📦 Smaller disk footprint
+
+### Method 2: Conda Installation
+
+For users who prefer conda:
+
+**Option A: Use installation script (Recommended)**
+
+```bash
+# Clone repository
+git clone https://github.com/IIIIQIIII/FinRobot-AF.git
+cd FinRobot-AF
+
+# Run installation script
+# Linux/macOS:
+./scripts/install_conda.sh
+
+# Windows:
+scripts\install_conda.bat
+```
+
+**Option B: Manual installation**
+
+```bash
+# 1. Create conda environment
+conda create -n finrobot python=3.10 -y
+conda activate finrobot
+
+# 2. Clone repository (if not already done)
+git clone https://github.com/IIIIQIIII/FinRobot-AF.git
+cd FinRobot-AF
+
+# 3. Install dependencies with --pre flag (required for agent-framework)
+pip install --pre -r requirements.txt
+
+# 4. Install FinRobot in editable mode
 pip install -e .
 ```
 
-### Method 2: PyPI Installation (Coming Soon)
+**Important**: The `--pre` flag is **required** because `agent-framework-core` is a pre-release package.
 
-When available on PyPI:
+### Method 3: pip + venv Installation
+
+Traditional Python virtual environment:
+
+```bash
+# 1. Clone repository
+git clone https://github.com/IIIIQIIII/FinRobot-AF.git
+cd FinRobot-AF
+
+# 2. Create virtual environment
+python3.10 -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+
+# 3. Install dependencies
+pip install --pre -r requirements.txt
+pip install -e .
+```
+
+### Method 4: PyPI Installation (Coming Soon)
+
+When FinRobot-AF is published to PyPI:
 
 ```bash
 # Install from PyPI
 pip install finrobot-af
 
 # Or with specific version
-pip install finrobot-af==0.1.0
+pip install finrobot-af==2.0.0
 ```
 
-### Method 3: Docker Installation (Coming Soon)
+### Method 5: Docker Installation (Coming Soon)
 
 ```bash
 # Pull Docker image
@@ -57,6 +122,14 @@ docker pull finrobot/finrobot-af:latest
 # Run container
 docker run -it -v $(pwd):/workspace finrobot/finrobot-af:latest
 ```
+
+## Performance Comparison
+
+| Method | Installation Time | Disk Usage | Notes |
+|--------|------------------|------------|-------|
+| **uv** | ~15 seconds | ~200MB | ⚡ Fastest, recommended |
+| **pip** | 2-5 minutes | ~300MB | Standard |
+| **conda** | 5-10 minutes | ~500MB+ | Good for system deps |
 
 ## Dependency Installation
 

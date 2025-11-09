@@ -1,0 +1,9 @@
+name: finrobot
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.10
+  - pip
+  # Note: After creating the environment, run:
+  # conda activate finrobot && pip install --pre -r requirements.txt && pip install -e .

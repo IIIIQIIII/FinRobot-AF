@@ -1,7 +1,6 @@
 # Agent Framework - Core dependencies
-agent-framework
-azure-ai-agent-openai
-azure-ai-agent-core
+# Note: Use --pre flag when installing: pip install --pre -r requirements.txt
+agent-framework-core
 
 # LLM providers
 openai>=1.0.0
@@ -44,7 +43,7 @@ scikit_learn==1.5.0
 starlette==0.37.2
 tenacity==8.3.0
 tqdm==4.66.1
-typing_extensions==4.9.0
+typing_extensions>=4.11
 unstructured==0.8.1
 
 # Visualization
