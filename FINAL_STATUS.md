@@ -7,7 +7,7 @@
 
 ## ✅ Summary
 
-FinRobot-AF 项目已完全更新并符合 GitHub 开源项目标准。所有文档、结构、元数据均已验证并保持一致。
+The FinRobot-AF project has been fully updated and complies with GitHub open source project standards. All documentation, structure, and metadata have been verified and maintained consistently.
 
 ---
 

@@ -36,13 +36,13 @@ class FMPUtils:
         # API URL
         url = f"https://financialmodelingprep.com/api/v4/price-target?symbol={ticker_symbol}&apikey={fmp_api_key}"
 
-        # 发送GET请求
+        # Send GET request
         price_target = "Not Given"
         response = requests.get(url)
 
-        # 确保请求成功
+        # Ensure request is successful
         if response.status_code == 200:
-            # 解析JSON数据
+            # Parse JSON data
             data = response.json()
             est = []
 
@@ -73,13 +73,13 @@ class FMPUtils:
 
         url = f"https://financialmodelingprep.com/api/v3/sec_filings/{ticker_symbol}?type=10-k&page=0&apikey={fmp_api_key}"
 
-        # 发送GET请求
+        # Send GET request
         filing_url = None
         response = requests.get(url)
 
-        # 确保请求成功
+        # Ensure request is successful
         if response.status_code == 200:
-            # 解析JSON数据
+            # Parse JSON data
             data = response.json()
             # print(data)
             if fyear == "latest":
@@ -104,13 +104,13 @@ class FMPUtils:
         date = get_next_weekday(date).strftime("%Y-%m-%d")
         url = f"https://financialmodelingprep.com/api/v3/historical-market-capitalization/{ticker_symbol}?limit=100&from={date}&to={date}&apikey={fmp_api_key}"
 
-        # 发送GET请求
+        # Send GET request
         mkt_cap = None
         response = requests.get(url)
 
-        # 确保请求成功
+        # Ensure request is successful
         if response.status_code == 200:
-            # 解析JSON数据
+            # Parse JSON data
             data = response.json()
             mkt_cap = data[0]["marketCap"]
             return mkt_cap
@@ -122,7 +122,7 @@ class FMPUtils:
         target_date: Annotated[str, "date of the BVPS, should be 'yyyy-mm-dd'"],
     ) -> str:
         """Get the historical book value per share for a given stock on a given date"""
-        # 从FMP API获取历史关键财务指标数据
+        # Get historical key financial metrics data from FMP API
         url = f"https://financialmodelingprep.com/api/v3/key-metrics/{ticker_symbol}?limit=40&apikey={fmp_api_key}"
         response = requests.get(url)
         data = response.json()
@@ -130,7 +130,7 @@ class FMPUtils:
         if not data:
             return "No data available"
 
-        # 找到最接近目标日期的数据
+        # Find data closest to target date
         closest_data = None
         min_date_diff = float("inf")
         target_date = datetime.strptime(target_date, "%Y-%m-%d")

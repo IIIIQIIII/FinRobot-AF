@@ -189,32 +189,32 @@ Review:
 
 ## 🔧 Automatic Report Management
 
-为了防止将来 AI coding agent 生成的报告文件放错位置，已创建：
+To prevent AI coding agent generated report files from being placed in incorrect locations, the following have been created:
 
-### 1. 自动整理脚本
-**文件**: `scripts/organize_reports.sh`
+### 1. Automatic Organization Script
+**File**: `scripts/organize_reports.sh`
 
-自动扫描并移动报告文件到正确位置：
+Automatically scans and moves report files to the correct location:
 ```bash
 ./scripts/organize_reports.sh
 ```
 
-### 2. Git Ignore 规则
-**文件**: `.gitignore`
+### 2. Git Ignore Rules
+**File**: `.gitignore`
 
-防止意外提交根目录的报告文件：
-- 忽略 `*_REPORT.md`, `*_SUMMARY.md` 等模式
-- 保留重要文件如 `README.md`
+Prevents accidental commits of report files in the root directory:
+- Ignores patterns like `*_REPORT.md`, `*_SUMMARY.md`, etc.
+- Preserves important files like `README.md`
 
-### 3. 开发指南
-**文件**: `docs/DEVELOPMENT_GUIDE.md`
+### 3. Development Guide
+**File**: `docs/DEVELOPMENT_GUIDE.md`
 
-详细的文件组织规范和最佳实践
+Detailed file organization specifications and best practices
 
-### 4. 报告管理指南
-**文件**: `docs/REPORT_MANAGEMENT.md`
+### 4. Report Management Guide
+**File**: `docs/REPORT_MANAGEMENT.md`
 
-完整的报告管理流程和使用说明
+Complete report management workflow and usage instructions
 
 ## ✨ Next Steps
 
@@ -236,15 +236,15 @@ Review:
 
 ### Using the Report Management System
 
-**日常使用**:
-1. 使用 AI agent 时明确指定路径：`docs/development-reports/REPORT_NAME.md`
-2. 如果报告在根目录，运行：`./scripts/organize_reports.sh`
-3. 更新报告索引：`docs/development-reports/README.md`
+**Daily Usage**:
+1. When using AI agent, explicitly specify path: `docs/development-reports/REPORT_NAME.md`
+2. If report is in root directory, run: `./scripts/organize_reports.sh`
+3. Update report index: `docs/development-reports/README.md`
 
-**定期维护**:
-- 每周运行整理脚本
-- 每月审查和归档旧报告
-- 保持报告索引更新
+**Regular Maintenance**:
+- Run organization script weekly
+- Review and archive old reports monthly
+- Keep report index updated
 
 ## 📝 Summary Statistics
 

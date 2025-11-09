@@ -358,7 +358,7 @@ class ReportAnalysisUtils:
 
         hist = YFinanceUtils.get_stock_data(ticker_symbol, start, end)
 
-        # 获取其他相关信息
+        # Get other related information
         info = YFinanceUtils.get_stock_info(ticker_symbol)
         close_price = hist["Close"].iloc[-1]
 
@@ -368,7 +368,7 @@ class ReportAnalysisUtils:
             (hist.index >= six_months_start) & (hist.index <= end)
         ]
 
-        # 计算这6个月的平均每日交易量
+        # Calculate the average daily trading volume for these 6 months
         avg_daily_volume_6m = (
             hist_last_6_months["Volume"].mean()
             if not hist_last_6_months["Volume"].empty

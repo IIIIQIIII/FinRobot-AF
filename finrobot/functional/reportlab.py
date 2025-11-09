@@ -62,14 +62,14 @@ class ReportLabUtils:
         risk assessment, competitors analysis and share performance, PE & EPS performance charts all into a PDF report.
         """
         try:
-            # 2. 创建PDF并插入图像
-            # 页面设置
+            # 2. Create PDF and insert images
+            # Page setup
             page_width, page_height = pagesizes.A4
             left_column_width = page_width * 2 / 3
             right_column_width = page_width - left_column_width
             margin = 4
 
-            # 创建PDF文档路径
+            # Create PDF document path
             pdf_path = (
                 os.path.join(save_path, f"{ticker_symbol}_Equity_Research_report.pdf")
                 if os.path.isdir(save_path)
@@ -77,10 +77,9 @@ class ReportLabUtils:
             )
             os.makedirs(os.path.dirname(pdf_path), exist_ok=True)
             doc = SimpleDocTemplate(pdf_path, pagesize=pagesizes.A4)
-        
 
 
-            # 定义两个栏位的Frame
+            # Define two column Frames
             frame_left = Frame(
                 margin,
                 margin,
@@ -116,7 +115,7 @@ class ReportLabUtils:
                 id="right",
             )
 
-            #创建PageTemplate，并添加到文档
+            # Create PageTemplate and add to document
             page_template = PageTemplate(
                 id="TwoColumns", frames=[frame_left, frame_right]
             )
@@ -140,7 +139,7 @@ class ReportLabUtils:
 
             styles = getSampleStyleSheet()
 
-            # 自定义样式
+            # Custom styles
             custom_style = ParagraphStyle(
                 name="Custom",
                 parent=styles["Normal"],
@@ -177,20 +176,20 @@ class ReportLabUtils:
                     ("FONT", (0, 0), (-1, -1), "Helvetica", 7),
                     ("FONT", (0, 0), (-1, 0), "Helvetica-Bold", 14),
                     ("VALIGN", (0, 0), (-1, -1), "MIDDLE"),
-                    # 所有单元格左对齐
+                    # Align all cells to the left
                     ("ALIGN", (0, 0), (-1, -1), "LEFT"),
-                    # 标题栏下方添加横线
+                    # Add horizontal line below header
                     ("LINEBELOW", (0, 0), (-1, 0), 2, colors.black),
-                    # 表格最下方添加横线
+                    # Add horizontal line at bottom of table
                     ("LINEBELOW", (0, -1), (-1, -1), 2, colors.black),
                 ]
             )
 
             name = YFinanceUtils.get_stock_info(ticker_symbol)["shortName"]
 
-            # 准备左栏和右栏内容
+            # Prepare left and right column content
             content = []
-            # 标题
+            # Title
             content.append(
                 Paragraph(
                     f"Equity Research Report: {name}",
@@ -198,7 +197,7 @@ class ReportLabUtils:
                 )
             )
 
-            # 子标题
+            # Subtitles
             content.append(Paragraph("Business Overview", subtitle_style))
             content.append(Paragraph(business_overview, custom_style))
 
@@ -221,7 +220,7 @@ class ReportLabUtils:
             table.setStyle(table_style2)
             content.append(table)
 
-            content.append(FrameBreak())  # 用于从左栏跳到右栏
+            content.append(FrameBreak())  # Used to jump from left column to right column
 
             table_style = TableStyle(
                 [
@@ -230,11 +229,11 @@ class ReportLabUtils:
                     ("FONT", (0, 0), (-1, -1), "Helvetica", 8),
                     ("FONT", (0, 0), (-1, 0), "Helvetica-Bold", 12),
                     ("VALIGN", (0, 0), (-1, -1), "MIDDLE"),
-                    # 第一列左对齐
+                    # Align first column to the left
                     ("ALIGN", (0, 1), (0, -1), "LEFT"),
-                    # 第二列右对齐
+                    # Align second column to the right
                     ("ALIGN", (1, 1), (1, -1), "RIGHT"),
-                    # 标题栏下方添加横线
+                    # Add horizontal line below header
                     ("LINEBELOW", (0, 0), (-1, 0), 2, colors.black),
                 ]
             )
@@ -254,7 +253,7 @@ class ReportLabUtils:
             # content.append(Paragraph("", custom_style))
             content.append(Spacer(1, 0.15 * inch))
             key_data = ReportAnalysisUtils.get_key_data(ticker_symbol, filing_date)
-            # 表格数据
+            # Table data
             data = [["Key data", ""]]
             data += [[k, v] for k, v in key_data.items()]
             col_widths = [full_length // 3 * 2, full_length // 3]
@@ -262,9 +261,9 @@ class ReportLabUtils:
             table.setStyle(table_style)
             content.append(table)
 
-            # 将Matplotlib图像添加到右栏
+            # Add Matplotlib images to right column
 
-            # 历史股价
+            # Historical stock price
             data = [["Share Performance"]]
             col_widths = [full_length]
             table = Table(data, colWidths=col_widths)
@@ -276,7 +275,7 @@ class ReportLabUtils:
             height = width // 2
             content.append(Image(plot_path, width=width, height=height))
 
-            # 历史PE和EPS
+            # Historical PE and EPS
             data = [["PE & EPS"]]
             col_widths = [full_length]
             table = Table(data, colWidths=col_widths)
@@ -288,7 +287,7 @@ class ReportLabUtils:
             height = width // 2
             content.append(Image(plot_path, width=width, height=height))
 
-            # # 开始新的一页
+            # # Start a new page
             content.append(NextPageTemplate("OneCol"))
             content.append(PageBreak())
             
@@ -344,7 +343,7 @@ class ReportLabUtils:
             #     height = width * 3 // 5
             #     content.append(Image(plot_path, width=width, height=height))
 
-            # # 第二页及之后内容，使用单栏布局
+            # # Second page and beyond content, use single column layout
             # df = ra.get_income_stmt()
             # df = df[df.columns[:3]]
             # def convert_if_money(value):
@@ -353,13 +352,13 @@ class ReportLabUtils:
             #     else:
             #         return value
 
-            # # 应用转换函数到DataFrame的每列
+            # # Apply conversion function to each column of DataFrame
             # df = df.applymap(convert_if_money)
 
             # df.columns = [col.strftime('%Y') for col in df.columns]
             # df.reset_index(inplace=True)
             # currency = ra.info['currency']
-            # df.rename(columns={'index': f'FY ({currency} mn)'}, inplace=True)  # 可选：重命名索引列为“序号”
+            # df.rename(columns={'index': f'FY ({currency} mn)'}, inplace=True)  # Optional: rename index column to "Number"
             # table_data = [["Income Statement"]]
             # table_data += [df.columns.to_list()] + df.values.tolist()
 
@@ -367,7 +366,7 @@ class ReportLabUtils:
             # table.setStyle(table_style2)
             # content.append(table)
 
-            # content.append(FrameBreak())  # 用于从左栏跳到右栏
+            # content.append(FrameBreak())  # Used to jump from left column to right column
 
             # df = ra.get_cash_flow()
             # df = df[df.columns[:3]]
@@ -377,7 +376,7 @@ class ReportLabUtils:
             # df.columns = [col.strftime('%Y') for col in df.columns]
             # df.reset_index(inplace=True)
             # currency = ra.info['currency']
-            # df.rename(columns={'index': f'FY ({currency} mn)'}, inplace=True)  # 可选：重命名索引列为“序号”
+            # df.rename(columns={'index': f'FY ({currency} mn)'}, inplace=True)  # Optional: rename index column to "Number"
             # table_data = [["Cash Flow Sheet"]]
             # table_data += [df.columns.to_list()] + df.values.tolist()
 
@@ -388,7 +387,7 @@ class ReportLabUtils:
             # # content.append(Spacer(1, 0.2*inch))
             # # content.append(Paragraph('More content in the single column.', custom_style))
 
-            # 构建PDF文档
+            # Build PDF document
             doc.build(content)
 
             return "Annual report generated successfully."

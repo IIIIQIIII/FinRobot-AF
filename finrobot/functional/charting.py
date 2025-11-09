@@ -95,20 +95,20 @@ class ReportChartUtils:
         sp500_close = fetch_stock_data("^GSPC")
         info = YFinanceUtils.get_stock_info(ticker_symbol)
 
-        # 计算变化率
+        # Calculate change rate
         company_change = (
             (target_close - target_close.iloc[0]) / target_close.iloc[0] * 100
         )
         sp500_change = (sp500_close - sp500_close.iloc[0]) / sp500_close.iloc[0] * 100
 
-        # 计算额外的日期点
+        # Calculate additional date points
         start_date = company_change.index.min()
         four_months = start_date + DateOffset(months=4)
         eight_months = start_date + DateOffset(months=8)
         end_date = company_change.index.max()
 
-        # 准备绘图
-        plt.rcParams.update({"font.size": 20})  # 调整为更大的字体大小
+        # Prepare plotting
+        plt.rcParams.update({"font.size": 20})  # Adjust to larger font size
         plt.figure(figsize=(14, 7))
         plt.plot(
             company_change.index,
@@ -120,12 +120,12 @@ class ReportChartUtils:
             sp500_change.index, sp500_change, label="S&P 500 Change %", color="red"
         )
 
-        # 设置标题和标签
+        # Set title and labels
         plt.title(f'{info["shortName"]} vs S&P 500 - Change % Over the Past Year')
         plt.xlabel("Date")
         plt.ylabel("Change %")
 
-        # 设置x轴刻度标签
+        # Set x-axis tick labels
         plt.xticks(
             [start_date, four_months, eight_months, end_date],
             [
@@ -164,20 +164,20 @@ class ReportChartUtils:
         ss = YFinanceUtils.get_income_stmt(ticker_symbol)
         eps = ss.loc["Diluted EPS", :]
 
-        # 获取过去5年的历史数据
+        # Get historical data for the past 5 years
         # historical_data = self.stock.history(period="5y")
         days = round((years + 1) * 365.25)
         start = (filing_date - timedelta(days=days)).strftime("%Y-%m-%d")
         end = filing_date.strftime("%Y-%m-%d")
         historical_data = YFinanceUtils.get_stock_data(ticker_symbol, start, end)
 
-        # 指定的日期，并确保它们都是UTC时区的
+        # Specified dates, ensuring they are all in UTC timezone
         dates = pd.to_datetime(eps.index[::-1], utc=True)
 
-        # 为了确保我们能够找到最接近的股市交易日，我们将转换日期并查找最接近的日期
+        # To ensure we can find the closest stock trading day, we convert dates and look for the closest date
         results = {}
         for date in dates:
-            # 如果指定日期不是交易日，使用bfill和ffill找到最近的交易日股价
+            # If specified date is not a trading day, use bfill and ffill to find the nearest trading day stock price
             if date not in historical_data.index:
                 close_price = historical_data.asof(date)
             else:
@@ -191,11 +191,11 @@ class ReportChartUtils:
 
         info = YFinanceUtils.get_stock_info(ticker_symbol)
 
-        # 创建图形和轴对象
+        # Create figure and axis objects
         fig, ax1 = plt.subplots(figsize=(14, 7))
-        plt.rcParams.update({"font.size": 20})  # 调整为更大的字体大小
+        plt.rcParams.update({"font.size": 20})  # Adjust to larger font size
 
-        # 绘制市盈率
+        # Plot PE ratio
         color = "tab:blue"
         ax1.set_xlabel("Date")
         ax1.set_ylabel("PE Ratio", color=color)
@@ -203,18 +203,18 @@ class ReportChartUtils:
         ax1.tick_params(axis="y", labelcolor=color)
         ax1.grid(True)
 
-        # 创建与ax1共享x轴的第二个轴对象
+        # Create second axis object sharing x-axis with ax1
         ax2 = ax1.twinx()
         color = "tab:red"
-        ax2.set_ylabel("EPS", color=color)  # 第二个y轴的标签
+        ax2.set_ylabel("EPS", color=color)  # Second y-axis label
         ax2.plot(dates, eps, color=color)
         ax2.tick_params(axis="y", labelcolor=color)
 
-        # 设置标题和x轴标签角度
+        # Set title and x-axis label angle
         plt.title(f'{info["shortName"]} PE Ratios and EPS Over the Past {years} Years')
         plt.xticks(rotation=45)
 
-        # 设置x轴刻度标签
+        # Set x-axis tick labels
         plt.xticks(dates, [d.strftime("%Y-%m") for d in dates])
 
         plt.tight_layout()

@@ -1,79 +1,79 @@
 # Report Management Guide
 
-如何管理 FinRobot-AF 项目中 AI 生成的开发报告。
+How to manage AI-generated development reports in the FinRobot-AF project.
 
-## 🎯 问题说明
+## 🎯 Problem Statement
 
-当使用 AI coding agent（如 Claude Code）生成报告时，这些文件**默认不会**自动放到 `docs/development-reports/` 目录，而是会放在当前工作目录（通常是项目根目录）。
+When using AI coding agents (such as Claude Code) to generate reports, these files are **not automatically** placed in the `docs/development-reports/` directory by default, but instead are placed in the current working directory (usually the project root directory).
 
-## ✅ 解决方案
+## ✅ Solutions
 
-我们提供了多种方法来管理这个问题：
+We provide multiple methods to manage this issue:
 
 ---
 
-## 方法 1: 使用自动化脚本（推荐）
+## Method 1: Use Automation Script (Recommended)
 
-### 快速使用
+### Quick Usage
 
 ```bash
-# 运行整理脚本
+# Run organization script
 ./scripts/organize_reports.sh
 ```
 
-脚本会自动：
-- ✅ 扫描项目根目录
-- ✅ 找到所有报告文件（`*_REPORT.md`, `*_SUMMARY.md` 等）
-- ✅ 移动到 `docs/development-reports/`
-- ✅ 跳过重要的根目录文件（README.md 等）
-- ✅ 显示移动结果
+The script will automatically:
+- ✅ Scan the project root directory
+- ✅ Find all report files (`*_REPORT.md`, `*_SUMMARY.md`, etc.)
+- ✅ Move to `docs/development-reports/`
+- ✅ Skip important root directory files (README.md, etc.)
+- ✅ Display move results
 
-### 定期运行
+### Regular Execution
 
-建议在以下情况运行脚本：
-- 使用 AI agent 生成报告后
-- 每周清理一次
-- 提交代码前
-
----
-
-## 方法 2: 明确指定文件路径
-
-在请求 AI agent 生成报告时，**明确指定完整路径**：
-
-### ❌ 不好的做法
-```
-"生成一个测试报告"
-"创建项目总结"
-```
-
-### ✅ 好的做法
-```
-"生成一个测试报告，保存到 docs/development-reports/NEW_FEATURE_TEST_REPORT.md"
-"创建项目总结，保存到 docs/development-reports/PROJECT_STATUS_20241109.md"
-```
-
-### 示例对话
-
-```
-用户: 请为新功能创建一个测试报告
-
-AI: 我会创建测试报告。文件将保存到哪里？
-
-用户: 保存到 docs/development-reports/RAG_FEATURE_TEST_REPORT.md
-```
+Recommended to run the script in the following situations:
+- After using AI agent to generate reports
+- Weekly cleanup
+- Before committing code
 
 ---
 
-## 方法 3: 手动移动文件
+## Method 2: Explicitly Specify File Path
 
-如果报告已经在根目录生成，手动移动：
+When requesting AI agent to generate reports, **explicitly specify the full path**:
+
+### ❌ Bad Practice
+```
+"Generate a test report"
+"Create a project summary"
+```
+
+### ✅ Good Practice
+```
+"Generate a test report, save to docs/development-reports/NEW_FEATURE_TEST_REPORT.md"
+"Create a project summary, save to docs/development-reports/PROJECT_STATUS_20241109.md"
+```
+
+### Example Conversation
+
+```
+User: Please create a test report for the new feature
+
+AI: I will create a test report. Where should the file be saved?
+
+User: Save to docs/development-reports/RAG_FEATURE_TEST_REPORT.md
+```
+
+---
+
+## Method 3: Manually Move Files
+
+If reports have already been generated in the root directory, move them manually:
 
 ```bash
-# 单个文件
+# Single file
 mv MY_REPORT.md docs/development-reports/
 
-# 批量移动所有报告
+# Batch move all reports
 mv *_REPORT.md docs/development-reports/
 mv *_SUMMARY.md docs/development-reports/
 mv *_ANALYSIS.md docs/development-reports/
@@ -81,9 +81,9 @@ mv *_ANALYSIS.md docs/development-reports/
 
 ---
 
-## 方法 4: Git Ignore 规则
+## Method 4: Git Ignore Rules
 
-项目的 `.gitignore` 已配置忽略根目录的报告文件：
+The project's `.gitignore` is configured to ignore report files in the root directory:
 
 ```gitignore
 # Reports generated in root directory
@@ -97,38 +97,38 @@ mv *_ANALYSIS.md docs/development-reports/
 !ORGANIZATION_SUMMARY.md
 ```
 
-**好处**：
-- ❌ 不会意外提交根目录的报告文件到 Git
-- ✅ 提醒你移动文件到正确位置
+**Benefits**:
+- ❌ Will not accidentally commit report files in root directory to Git
+- ✅ Reminds you to move files to the correct location
 
-**注意**：这不会自动移动文件，只是防止提交
+**Note**: This will not automatically move files, it only prevents commits
 
 ---
 
-## 📋 标准工作流程
+## 📋 Standard Workflow
 
-### 生成新报告的完整流程
+### Complete Process for Generating New Reports
 
-#### 步骤 1: 生成报告（指定路径）
+#### Step 1: Generate Report (Specify Path)
 
 ```
-请生成 [功能] 的测试报告，保存到：
+Please generate test report for [feature], save to:
 docs/development-reports/[FEATURE]_TEST_REPORT.md
 ```
 
-#### 步骤 2: 如果在根目录生成了
+#### Step 2: If Generated in Root Directory
 
 ```bash
-# 运行整理脚本
+# Run organization script
 ./scripts/organize_reports.sh
 
-# 或手动移动
+# Or move manually
 mv *_REPORT.md docs/development-reports/
 ```
 
-#### 步骤 3: 更新索引
+#### Step 3: Update Index
 
-编辑 `docs/development-reports/README.md`，添加新报告信息：
+Edit `docs/development-reports/README.md`, add new report information:
 
 ```markdown
 ### [NEW_FEATURE_TEST_REPORT.md](NEW_FEATURE_TEST_REPORT.md)
@@ -139,7 +139,7 @@ mv *_REPORT.md docs/development-reports/
 Description of what the report contains...
 ```
 
-#### 步骤 4: 提交
+#### Step 4: Commit
 
 ```bash
 git add docs/development-reports/NEW_FEATURE_TEST_REPORT.md
@@ -149,91 +149,91 @@ git commit -m "Add test report for new feature"
 
 ---
 
-## 🔍 检查和验证
+## 🔍 Checking and Verification
 
-### 检查是否有遗漏的报告
+### Check for Missing Reports
 
 ```bash
-# 列出根目录的所有 .md 文件
+# List all .md files in root directory
 ls -1 *.md
 
-# 应该只看到：
+# Should only see:
 # - README.md
 # - ORGANIZATION_SUMMARY.md
-# - (其他重要的根文档)
+# - (other important root documents)
 ```
 
-### 如果看到其他 `*_REPORT.md` 或 `*_SUMMARY.md`
+### If You See Other `*_REPORT.md` or `*_SUMMARY.md`
 
 ```bash
-# 运行整理脚本
+# Run organization script
 ./scripts/organize_reports.sh
 ```
 
-### 查看所有已整理的报告
+### View All Organized Reports
 
 ```bash
-# 列出所有报告
+# List all reports
 ls -1 docs/development-reports/*.md
 
-# 查看报告数量
+# View report count
 ls -1 docs/development-reports/*.md | wc -l
 ```
 
 ---
 
-## 📊 命名规范
+## 📊 Naming Conventions
 
-生成报告时使用以下命名模式：
+Use the following naming patterns when generating reports:
 
-### 测试报告
+### Test Reports
 ```
 [FEATURE]_TEST_REPORT.md
-例如: RAG_INTEGRATION_TEST_REPORT.md
+Example: RAG_INTEGRATION_TEST_REPORT.md
 ```
 
-### 项目总结
+### Project Summaries
 ```
 PROJECT_[TOPIC]_SUMMARY.md
-例如: PROJECT_STATUS_SUMMARY.md
+Example: PROJECT_STATUS_SUMMARY.md
 ```
 
-### 分析报告
+### Analysis Reports
 ```
 [TOPIC]_ANALYSIS.md
-例如: PERFORMANCE_ANALYSIS.md
+Example: PERFORMANCE_ANALYSIS.md
 ```
 
-### 实现报告
+### Implementation Reports
 ```
 [FEATURE]_IMPLEMENTATION.md
-例如: MULTI_AGENT_IMPLEMENTATION.md
+Example: MULTI_AGENT_IMPLEMENTATION.md
 ```
 
-### 调试报告
+### Debug Reports
 ```
 [ISSUE]_DEBUG_REPORT.md
-例如: MEMORY_LEAK_DEBUG_REPORT.md
+Example: MEMORY_LEAK_DEBUG_REPORT.md
 ```
 
-### 示例输出
+### Example Outputs
 ```
 [SYMBOL]_Analysis_[TIMESTAMP].md
-例如: AAPL_Analysis_20241109_143022.md
+Example: AAPL_Analysis_20241109_143022.md
 ```
 
 ---
 
-## 🤖 与 AI Agent 协作的最佳实践
+## 🤖 Best Practices for AI Agent Collaboration
 
-### 1. 明确说明文件位置
+### 1. Clearly Specify File Location
 
 ```
-✅ "创建测试报告到 docs/development-reports/TEST_REPORT.md"
-❌ "创建测试报告"
+✅ "Create test report to docs/development-reports/TEST_REPORT.md"
+❌ "Create test report"
 ```
 
-### 2. 使用完整路径
+### 2. Use Full Path
 
 ```
 ✅ docs/development-reports/FEATURE_ANALYSIS.md
@@ -241,7 +241,7 @@ PROJECT_[TOPIC]_SUMMARY.md
 ❌ FEATURE_ANALYSIS.md
 ```
 
-### 3. 包含日期和描述性名称
+### 3. Include Date and Descriptive Name
 
 ```
 ✅ INTEGRATION_TEST_REPORT_20241109.md
@@ -250,7 +250,7 @@ PROJECT_[TOPIC]_SUMMARY.md
 ❌ test.md
 ```
 
-### 4. 完成后运行整理脚本
+### 4. Run Organization Script After Completion
 
 ```bash
 ./scripts/organize_reports.sh
@@ -258,75 +258,75 @@ PROJECT_[TOPIC]_SUMMARY.md
 
 ---
 
-## 🛠️ 维护任务
+## 🛠️ Maintenance Tasks
 
-### 每周清理（推荐）
+### Weekly Cleanup (Recommended)
 
 ```bash
-# 1. 运行整理脚本
+# 1. Run organization script
 ./scripts/organize_reports.sh
 
-# 2. 检查根目录
+# 2. Check root directory
 ls -1 *.md
 
-# 3. 更新报告索引
+# 3. Update report index
 vim docs/development-reports/README.md
 
-# 4. 提交变更
+# 4. Commit changes
 git add docs/development-reports/
 git commit -m "Weekly report organization"
 ```
 
-### 每月审查
+### Monthly Review
 
-1. 审查所有报告
-2. 归档过时报告
-3. 更新统计信息
-4. 清理不需要的报告
+1. Review all reports
+2. Archive outdated reports
+3. Update statistics
+4. Clean up unnecessary reports
 
 ---
 
-## 📁 目录结构参考
+## 📁 Directory Structure Reference
 
 ```
 FinRobot-AF/
-├── README.md                         ✅ 保留在根目录
-├── ORGANIZATION_SUMMARY.md           ✅ 保留在根目录
+├── README.md                         ✅ Keep in root directory
+├── ORGANIZATION_SUMMARY.md           ✅ Keep in root directory
 │
 ├── docs/
-│   ├── development-reports/          ← 所有开发报告放这里
-│   │   ├── README.md                 ← 报告索引
-│   │   ├── *_REPORT.md              ← 测试报告
-│   │   ├── *_SUMMARY.md             ← 项目总结
-│   │   ├── *_ANALYSIS.md            ← 分析报告
+│   ├── development-reports/          ← All development reports go here
+│   │   ├── README.md                 ← Report index
+│   │   ├── *_REPORT.md              ← Test reports
+│   │   ├── *_SUMMARY.md             ← Project summaries
+│   │   ├── *_ANALYSIS.md            ← Analysis reports
 │   │   └── ...
 │   │
-│   ├── user-guide/                   ← 用户指南
-│   ├── tutorials/                    ← 教程
+│   ├── user-guide/                   ← User guides
+│   ├── tutorials/                    ← Tutorials
 │   └── ...
 │
 └── scripts/
-    └── organize_reports.sh           ← 自动整理脚本
+    └── organize_reports.sh           ← Automatic organization script
 ```
 
 ---
 
-## ❓ 常见问题
+## ❓ Frequently Asked Questions
 
-### Q: AI 生成的报告总是在根目录，怎么办？
+### Q: AI generated reports are always in root directory, what to do?
 
-**A**: 使用以下任一方法：
-1. 在请求时明确指定路径
-2. 生成后运行 `./scripts/organize_reports.sh`
-3. 手动移动文件
+**A**: Use any of the following methods:
+1. Explicitly specify path when requesting
+2. Run `./scripts/organize_reports.sh` after generation
+3. Move files manually
 
-### Q: 如何防止意外提交根目录的报告？
+### Q: How to prevent accidentally committing reports in root directory?
 
-**A**: `.gitignore` 已配置，会自动忽略根目录的报告文件
+**A**: `.gitignore` is configured to automatically ignore report files in root directory
 
-### Q: 整理脚本会移动哪些文件？
+### Q: Which files will the organization script move?
 
-**A**: 匹配以下模式的文件：
+**A**: Files matching the following patterns:
 - `*_REPORT.md`
 - `*_SUMMARY.md`
 - `*_ANALYSIS.md`
@@ -334,54 +334,54 @@ FinRobot-AF/
 - `*_TEST*.md`
 - `*_DEBUG*.md`
 
-**但会保留**：
+**But will preserve**:
 - `README.md`
 - `ORGANIZATION_SUMMARY.md`
-- 其他重要根文档
+- Other important root documents
 
-### Q: 可以自动运行整理脚本吗？
+### Q: Can the organization script run automatically?
 
-**A**: 可以设置 Git hooks：
+**A**: You can set up Git hooks:
 
 ```bash
-# 在 .git/hooks/pre-commit 添加：
+# Add to .git/hooks/pre-commit:
 #!/bin/bash
 ./scripts/organize_reports.sh
 ```
 
-### Q: 如果不小心删除了报告怎么办？
+### Q: What if I accidentally delete a report?
 
-**A**: 使用 Git 恢复：
+**A**: Restore using Git:
 ```bash
 git checkout docs/development-reports/REPORT_NAME.md
 ```
 
 ---
 
-## 📚 相关文档
+## 📚 Related Documentation
 
-- [DEVELOPMENT_GUIDE.md](DEVELOPMENT_GUIDE.md) - 开发指南
-- [ORGANIZATION_SUMMARY.md](../ORGANIZATION_SUMMARY.md) - 项目组织总结
-- [development-reports/README.md](development-reports/README.md) - 报告索引
+- [DEVELOPMENT_GUIDE.md](DEVELOPMENT_GUIDE.md) - Development Guide
+- [ORGANIZATION_SUMMARY.md](../ORGANIZATION_SUMMARY.md) - Project Organization Summary
+- [development-reports/README.md](development-reports/README.md) - Report Index
 
 ---
 
-## 🎯 快速参考
+## 🎯 Quick Reference
 
 ```bash
-# 生成报告后立即运行
+# Run immediately after generating report
 ./scripts/organize_reports.sh
 
-# 检查根目录
+# Check root directory
 ls -1 *.md
 
-# 查看所有报告
+# View all reports
 ls -1 docs/development-reports/*.md
 
-# 手动移动
+# Move manually
 mv *_REPORT.md docs/development-reports/
 
-# 更新索引
+# Update index
 vim docs/development-reports/README.md
 ```
 
