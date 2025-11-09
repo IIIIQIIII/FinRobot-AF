@@ -428,9 +428,9 @@ If you use FinRobot in your research, please cite:
 
 ## Support
 
-- **Issues**: [GitHub Issues](https://github.com/your-repo/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/your-repo/discussions)
-- **Documentation**: [Full Documentation](https://finrobot.readthedocs.io)
+- **Issues**: [GitHub Issues](https://github.com/IIIIQIIII/FinRobot-AF/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/IIIIQIIII/FinRobot-AF/discussions)
+- **Documentation**: [Full Documentation](docs/README.md)
 
 ---
 

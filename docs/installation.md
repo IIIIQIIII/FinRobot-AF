@@ -26,7 +26,7 @@ conda create -n finrobot python=3.10
 conda activate finrobot
 
 # 2. Clone repository
-git clone https://github.com/AI4Finance-Foundation/FinRobot-AF.git
+git clone https://github.com/IIIIQIIII/FinRobot-AF.git
 cd FinRobot-AF
 
 # 3. Install dependencies
@@ -399,5 +399,5 @@ If you encounter issues:
 
 - Check [Troubleshooting Guide](reference/troubleshooting.md)
 - Review [FAQ](reference/faq.md)
-- Open an [issue on GitHub](https://github.com/AI4Finance-Foundation/FinRobot/issues)
-- Join our [discussions](https://github.com/AI4Finance-Foundation/FinRobot/discussions)
+- Open an [issue on GitHub](https://github.com/IIIIQIIII/FinRobot-AF/issues)
+- Join our [discussions](https://github.com/IIIIQIIII/FinRobot-AF/discussions)
