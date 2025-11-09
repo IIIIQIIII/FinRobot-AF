@@ -1,0 +1,70 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual Environment
+venv/
+ENV/
+env/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Config files with secrets
+config_api_keys
+OAI_CONFIG_LIST
+.env
+
+# Keep sample configs
+!config_api_keys_sample
+!OAI_CONFIG_LIST_sample
+
+# Data and results
+data/*
+!data/README.md
+results/*
+!results/README.md
+
+# Reports generated in root directory
+# (Should be moved to docs/development-reports/)
+*_REPORT.md
+*_SUMMARY.md
+*_ANALYSIS.md
+*_GUIDE.md
+*_TEST*.md
+*_DEBUG*.md
+
+# Exceptions: Keep important root-level docs
+!README.md
+!ORGANIZATION_SUMMARY.md
+
+# Temporary files
+*.tmp
+*.log
+*.cache

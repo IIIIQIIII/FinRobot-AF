@@ -1,0 +1,59 @@
+# Agent Framework - Core dependencies
+agent-framework
+azure-ai-agent-openai
+azure-ai-agent-core
+
+# LLM providers
+openai>=1.0.0
+
+# Development tools
+ipython
+
+# Financial libraries
+finnhub-python
+yfinance
+mplfinance
+backtrader
+sec_api
+
+# Data handling
+numpy==1.26.4
+pandas==2.0.3
+pyPDF2
+reportlab
+
+# Historical data
+praw
+tushare
+pandas_datareader
+
+# PDF and document processing
+pdfkit==1.0.0
+marker-pdf
+
+# NLP and AI utilities
+langchain==0.1.20
+nltk==3.8.1
+huggingface_hub
+
+# Utilities
+aiohttp==3.8.5
+ratelimit==2.2.1
+Requests==2.31.0
+scikit_learn==1.5.0
+starlette==0.37.2
+tenacity==8.3.0
+tqdm==4.66.1
+typing_extensions==4.9.0
+unstructured==0.8.1
+
+# Visualization
+matplotlib
+
+# Packaging
+setuptools>=41.4.0
+wheel>=0.33.6
+
+# Vector store for RAG (replacing autogen's built-in)
+chromadb
+sentence-transformers
