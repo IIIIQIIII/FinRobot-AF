@@ -181,7 +181,7 @@ pip install -r requirements.txt
 2. **Set up API keys** (for workflow examples):
 ```bash
 export OPENROUTER_API_KEY="your-key-here"
-export DASHSCOPE_API_KEY="your-key-here"
+export ALIYUN_API_KEY="your-key-here"
 ```
 
 3. **Prepare data**: Place 10-K filing JSON files in `data/10k_filings/`

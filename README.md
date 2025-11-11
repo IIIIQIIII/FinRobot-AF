@@ -121,7 +121,7 @@ nano .env  # or use your preferred editor
 **Example .env file:**
 ```bash
 # LLM Provider API Keys
-DASHSCOPE_API_KEY=your_dashscope_api_key_here
+ALIYUN_API_KEY=your_aliyun_api_key_here
 OPENROUTER_API_KEY=your_openrouter_api_key_here
 OPENAI_API_KEY=your_openai_api_key_here
 
