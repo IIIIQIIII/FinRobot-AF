@@ -108,43 +108,97 @@ See [docs/installation.md](docs/installation.md) for detailed installation instr
 
 ### Configuration
 
-Create configuration files in your working directory:
+Configure API keys using the `.env` file:
 
-**1. OAI_CONFIG_LIST** (LLM Configuration)
-```json
-[
-    {
-        "model": "gpt-4",
-        "api_key": "sk-...",
-        "base_url": "https://api.openai.com/v1"
-    }
-]
+```bash
+# Copy the sample configuration
+cp .env.sample .env
+
+# Edit .env and add your API keys
+nano .env  # or use your preferred editor
 ```
 
-**2. config_api_keys** (Data Source API Keys)
-```json
-{
-    "FINNHUB_API_KEY": "your_finnhub_key",
-    "FMP_API_KEY": "your_fmp_key",
-    "SEC_API_KEY": "your_sec_key",
-    "OPENAI_API_KEY": "sk-..."
-}
+**Example .env file:**
+```bash
+# LLM Provider API Keys
+DASHSCOPE_API_KEY=your_dashscope_api_key_here
+OPENROUTER_API_KEY=your_openrouter_api_key_here
+OPENAI_API_KEY=your_openai_api_key_here
+
+# Financial Data API Keys
+FINNHUB_API_KEY=your_finnhub_api_key_here
+FMP_API_KEY=your_fmp_api_key_here
+SEC_API_KEY=your_sec_api_key_here
 ```
+
+The `.env` file is automatically loaded by FinRobot. See `.env.sample` for the complete list of available configuration options.
 
 ## Quick Start
 
-### Example 1: Market Analysis
+### Sentiment Analysis Workflow
+
+Analyze sentiment of 10-K filings using a config-driven multi-agent workflow:
+
+```bash
+# Run the sentiment analysis example
+python examples/sentiment_workflow.py
+```
+
+**What it does:**
+1. Loads 10-K filing from `data/10k_filings/`
+2. Extracts policy discussions (using Policy_Extractor agent)
+3. Analyzes sentiment (using Sentiment_Analyzer agent)
+4. Saves structured results to `results/sentiment/`
+
+**Customize the workflow** by editing `config/workflows/sentiment_analysis.json`:
+
+```json
+{
+  "workflow_name": "sentiment_analysis",
+  "paths": {
+    "input_folder": "data/10k_filings",
+    "output_folder": "results/sentiment"
+  },
+  "steps": {
+    "extraction": {
+      "provider": "openrouter",
+      "model": "gpt-5",
+      "temperature": 0.3,
+      "agent_name": "Policy_Extractor"
+    },
+    "sentiment": {
+      "provider": "aliyun",
+      "model": "qwen3-max",
+      "temperature": 0.5,
+      "agent_name": "Sentiment_Analyzer"
+    }
+  }
+}
+```
+
+You can configure different LLM providers per step, adjust temperature, or change models - all without modifying code!
+
+### More Examples
+
+See the `examples/` directory for more workflows:
+
+```bash
+# FLS (Forward-Looking Statement) Extraction
+python examples/fls_workflow.py
+
+# Simple rule-based FLS extraction (fast, zero-cost)
+python examples/simple_fls_extraction.py
+```
+
+**Programmatic Usage:**
 
 ```python
 import asyncio
-from finrobot.config import initialize_config
+from finrobot.config import FinRobotConfig
 from finrobot.agents.workflows import SingleAssistant
 
-# Initialize configuration
-config = initialize_config(
-    api_keys_path="config_api_keys",
-    llm_config_path="OAI_CONFIG_LIST"
-)
+# Configuration is automatically loaded from .env
+config = FinRobotConfig()
 
 # Create market analyst
 assistant = SingleAssistant("Market_Analyst")
@@ -159,69 +213,7 @@ async def analyze_stock():
 asyncio.run(analyze_stock())
 ```
 
-### Example 2: Financial Report Generation
-
-```python
-from finrobot.agents.workflows import SingleAssistantShadow
-
-# Create expert investor with planning capability
-assistant = SingleAssistantShadow("Expert_Investor")
-
-# Generate comprehensive report
-async def generate_report():
-    response = await assistant.chat(
-        "Create a detailed investment analysis report for Microsoft (MSFT) "
-        "including financial statements, market position, and investment recommendation"
-    )
-    print(response.text)
-
-asyncio.run(generate_report())
-```
-
-### Example 3: Multi-Agent Collaboration
-
-```python
-from finrobot.agents.workflows import MultiAssistant
-
-# Create multi-agent team
-team = MultiAssistant([
-    "Market_Analyst",
-    "Financial_Analyst",
-    "Statistician"
-])
-
-# Collaborative analysis
-async def team_analysis():
-    response = await team.chat(
-        "Perform comprehensive analysis of Tesla (TSLA) stock: "
-        "market trends, financial health, and statistical risk assessment"
-    )
-    print(response.text)
-
-asyncio.run(team_analysis())
-```
-
-### Example 4: RAG-Enhanced Analysis
-
-```python
-from finrobot.agents.workflows import SingleAssistantRAG
-
-# Create RAG-enabled assistant
-assistant = SingleAssistantRAG(
-    "Expert_Investor",
-    docs_path="./financial_reports",
-    collection_name="earnings_reports"
-)
-
-# Query with document context
-async def rag_query():
-    response = await assistant.chat(
-        "Based on recent earnings reports, what are the key risks for tech sector?"
-    )
-    print(response.text)
-
-asyncio.run(rag_query())
-```
+For more detailed examples and usage patterns, see the [examples README](examples/README.md).
 
 ## Migration from AutoGen
 
@@ -428,7 +420,7 @@ pytest --cov=finrobot tests/
    - Check Python version: `python --version` (must be 3.10+)
 
 2. **API Key Errors**
-   - Verify config files exist: `OAI_CONFIG_LIST`, `config_api_keys`
+   - Verify `.env` file exists and contains your API keys
    - Check environment variables: `echo $OPENAI_API_KEY`
 
 3. **AsyncIO Errors**

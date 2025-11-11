@@ -42,17 +42,23 @@ uv.lock
 Thumbs.db
 
 # Config files with secrets
-config_api_keys
-OAI_CONFIG_LIST
 .env
 
+# Legacy config files (deprecated, use .env instead)
+config_api_keys
+OAI_CONFIG_LIST
+
 # Keep sample configs
+!.env.sample
 !config_api_keys_sample
 !OAI_CONFIG_LIST_sample
 
 # Data and results
 data/*
 !data/README.md
+!data/10k_filings/
+!data/10k_filings/*.json
+
 results/*
 !results/README.md
 !results/reports/README.md
@@ -68,6 +74,8 @@ docs/development-reports/
 *_GUIDE.md
 *_TEST*.md
 *_DEBUG*.md
+*_RESULTS.md
+*_SETUP.md
 
 # Exceptions: Keep important root-level docs
 !README.md

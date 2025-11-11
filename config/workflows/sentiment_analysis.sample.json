@@ -1,0 +1,36 @@
+{
+  "workflow_name": "sentiment_analysis",
+  "description": "Financial sentiment analysis workflow with policy extraction",
+
+  "steps": {
+    "extraction": {
+      "description": "Extract policy segments from 10-K Item 7",
+      "llm_provider": "openrouter",
+      "llm_model": "gpt-5",
+      "temperature": 0.3,
+      "max_tokens": 4000,
+      "agent_name": "Policy_Extractor"
+    },
+    "sentiment": {
+      "description": "Analyze sentiment of extracted policies",
+      "llm_provider": "aliyun",
+      "llm_model": "qwen3-max",
+      "temperature": 0.5,
+      "max_tokens": 2000,
+      "agent_name": "Sentiment_Analyzer"
+    }
+  },
+
+  "paths": {
+    "input_folder": "data/10k_filings",
+    "output_folder": "results/sentiment",
+    "save_intermediate": true
+  },
+
+  "options": {
+    "save_extraction": true,
+    "save_sentiment": true,
+    "create_summary": true,
+    "verbose": true
+  }
+}

@@ -56,3 +56,4 @@ wheel>=0.33.6
 # Vector store for RAG (replacing autogen's built-in)
 chromadb
 sentence-transformers
+python-dotenv>=1.0.0

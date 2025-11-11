@@ -1,0 +1,53 @@
+{
+  "workflow_name": "fls_extraction",
+  "description": "Forward-Looking Statement (FLS) extraction from 10-K filings (Section 7 MD&A and Section 1A Risk Factors)",
+
+  "steps": {
+    "mda_fls_extraction": {
+      "description": "Extract FLS from Section 7 (Management's Discussion & Analysis)",
+      "llm_provider": "aliyun",
+      "llm_model": "qwen3-max",
+      "temperature": 0.3,
+      "max_tokens": 6000,
+      "agent_name": "FLS_MDA_Analyst",
+      "section": "section_7"
+    },
+    "risk_fls_extraction": {
+      "description": "Extract FLS from Section 1A (Risk Factors)",
+      "llm_provider": "aliyun",
+      "llm_model": "qwen3-max",
+      "temperature": 0.3,
+      "max_tokens": 6000,
+      "agent_name": "FLS_Risk_Analyst",
+      "section": "section_1A"
+    }
+  },
+
+  "paths": {
+    "input_folder": "data/10k_filings",
+    "output_folder": "results/fls_extraction",
+    "save_intermediate": true
+  },
+
+  "options": {
+    "save_mda_extraction": true,
+    "save_risk_extraction": true,
+    "create_combined_output": true,
+    "min_fls_confidence": 0.5,
+    "max_segments_per_section": 50,
+    "verbose": true
+  },
+
+  "fls_detection": {
+    "signal_word_categories": [
+      "planning",
+      "expectations",
+      "possibility",
+      "projections",
+      "likelihood",
+      "future_periods"
+    ],
+    "exclude_historical": true,
+    "context_sentences": 1
+  }
+}
